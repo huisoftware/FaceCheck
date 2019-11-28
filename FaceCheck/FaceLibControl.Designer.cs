@@ -44,6 +44,7 @@
             this.groupId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isSign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -175,7 +176,8 @@
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.userId,
-            this.userName});
+            this.userName,
+            this.isSign});
             this.dataGridView2.Location = new System.Drawing.Point(8, 49);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 23;
@@ -196,6 +198,11 @@
             // 
             this.userName.HeaderText = "用户名";
             this.userName.Name = "userName";
+            // 
+            // isSign
+            // 
+            this.isSign.HeaderText = "是否签到";
+            this.isSign.Name = "isSign";
             // 
             // FaceLibControl
             // 
@@ -234,5 +241,6 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn userId;
         private System.Windows.Forms.DataGridViewTextBoxColumn userName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isSign;
     }
 }
