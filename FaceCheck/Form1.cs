@@ -37,5 +37,13 @@ namespace FaceCheck
             groupBox1.Controls.Clear();
             groupBox1.Controls.Add(faceLibControl);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+
+
+
+        }
     }
 }

@@ -38,17 +38,20 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Location = new System.Drawing.Point(104, -1);
+            this.groupBox1.Location = new System.Drawing.Point(156, -2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(730, 450);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(1095, 675);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1, -1);
+            this.button1.Location = new System.Drawing.Point(2, -2);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 31);
+            this.button1.Size = new System.Drawing.Size(132, 46);
             this.button1.TabIndex = 1;
             this.button1.Text = "签到页";
             this.button1.UseVisualStyleBackColor = true;
@@ -56,9 +59,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1, 36);
+            this.button2.Location = new System.Drawing.Point(2, 54);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 26);
+            this.button2.Size = new System.Drawing.Size(132, 39);
             this.button2.TabIndex = 2;
             this.button2.Text = "人脸库";
             this.button2.UseVisualStyleBackColor = true;
@@ -66,42 +70,47 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1, 68);
+            this.button3.Location = new System.Drawing.Point(2, 102);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(88, 26);
+            this.button3.Size = new System.Drawing.Size(132, 39);
             this.button3.TabIndex = 3;
             this.button3.Text = "重置签到";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 108);
+            this.label1.Location = new System.Drawing.Point(14, 162);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 12);
+            this.label1.Size = new System.Drawing.Size(134, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "当前已签到人数";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 152);
+            this.label2.Location = new System.Drawing.Point(18, 228);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.Size = new System.Drawing.Size(116, 18);
             this.label2.TabIndex = 5;
             this.label2.Text = "使用的用户组";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 450);
+            this.ClientSize = new System.Drawing.Size(1282, 675);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "人脸识别签到欢迎系统——北京航空航天大学软件学院";
             this.ResumeLayout(false);
