@@ -28,37 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.addGroupButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.groupId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.groupId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isSign = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.addUserButton = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // addGroupButton
             // 
-            this.button1.Location = new System.Drawing.Point(6, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "新增";
-            this.button1.UseVisualStyleBackColor = true;
+            this.addGroupButton.Location = new System.Drawing.Point(8, 25);
+            this.addGroupButton.Margin = new System.Windows.Forms.Padding(4);
+            this.addGroupButton.Name = "addGroupButton";
+            this.addGroupButton.Size = new System.Drawing.Size(80, 29);
+            this.addGroupButton.TabIndex = 0;
+            this.addGroupButton.Text = "新增";
+            this.addGroupButton.UseVisualStyleBackColor = true;
+            this.addGroupButton.Click += new System.EventHandler(this.addGroupButton_Click);
             // 
             // groupBox1
             // 
@@ -66,37 +68,63 @@
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(14, 20);
+            this.groupBox1.Controls.Add(this.addGroupButton);
+            this.groupBox1.Location = new System.Drawing.Point(19, 25);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(286, 416);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(381, 520);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "用户组";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.groupId});
+            this.dataGridView1.Location = new System.Drawing.Point(8, 61);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.Size = new System.Drawing.Size(373, 451);
+            this.dataGridView1.TabIndex = 4;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // groupId
+            // 
+            this.groupId.HeaderText = "组id";
+            this.groupId.MinimumWidth = 6;
+            this.groupId.Name = "groupId";
+            this.groupId.Width = 125;
+            // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(203, 20);
+            this.button5.Location = new System.Drawing.Point(271, 25);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(64, 23);
+            this.button5.Size = new System.Drawing.Size(85, 29);
             this.button5.TabIndex = 3;
             this.button5.Text = "停用";
             this.button5.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(139, 20);
+            this.button4.Location = new System.Drawing.Point(185, 25);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(58, 23);
+            this.button4.Size = new System.Drawing.Size(77, 29);
             this.button4.TabIndex = 2;
             this.button4.Text = "使用";
             this.button4.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(72, 20);
+            this.button2.Location = new System.Drawing.Point(96, 25);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(61, 23);
+            this.button2.Size = new System.Drawing.Size(81, 29);
             this.button2.TabIndex = 1;
             this.button2.Text = "删除";
             this.button2.UseVisualStyleBackColor = true;
@@ -106,70 +134,15 @@
             this.groupBox2.Controls.Add(this.dataGridView2);
             this.groupBox2.Controls.Add(this.button9);
             this.groupBox2.Controls.Add(this.button8);
-            this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Location = new System.Drawing.Point(306, 59);
+            this.groupBox2.Controls.Add(this.addUserButton);
+            this.groupBox2.Location = new System.Drawing.Point(408, 74);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(409, 377);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(545, 471);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "用户";
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(173, 20);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 5;
-            this.button9.Text = "更新人脸";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(92, 20);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 4;
-            this.button8.Text = "删除";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(11, 20);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 3;
-            this.button7.Text = "新增";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(585, 30);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(130, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "查询当前用户组用户";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(306, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "当前选择的用户组";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.groupId});
-            this.dataGridView1.Location = new System.Drawing.Point(6, 49);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(280, 361);
-            this.dataGridView1.TabIndex = 4;
             // 
             // dataGridView2
             // 
@@ -178,45 +151,102 @@
             this.userId,
             this.userName,
             this.isSign});
-            this.dataGridView2.Location = new System.Drawing.Point(8, 49);
+            this.dataGridView2.Location = new System.Drawing.Point(11, 61);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(395, 322);
+            this.dataGridView2.Size = new System.Drawing.Size(527, 402);
             this.dataGridView2.TabIndex = 6;
-            // 
-            // groupId
-            // 
-            this.groupId.HeaderText = "组id";
-            this.groupId.Name = "groupId";
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
             // userId
             // 
             this.userId.HeaderText = "用户id";
+            this.userId.MinimumWidth = 6;
             this.userId.Name = "userId";
+            this.userId.Width = 125;
             // 
             // userName
             // 
             this.userName.HeaderText = "用户名";
+            this.userName.MinimumWidth = 6;
             this.userName.Name = "userName";
+            this.userName.Width = 125;
             // 
             // isSign
             // 
             this.isSign.HeaderText = "是否签到";
+            this.isSign.MinimumWidth = 6;
             this.isSign.Name = "isSign";
+            this.isSign.Width = 125;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(231, 25);
+            this.button9.Margin = new System.Windows.Forms.Padding(4);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(100, 29);
+            this.button9.TabIndex = 5;
+            this.button9.Text = "更新人脸";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(123, 25);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(100, 29);
+            this.button8.TabIndex = 4;
+            this.button8.Text = "删除";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // addUserButton
+            // 
+            this.addUserButton.Location = new System.Drawing.Point(15, 25);
+            this.addUserButton.Margin = new System.Windows.Forms.Padding(4);
+            this.addUserButton.Name = "addUserButton";
+            this.addUserButton.Size = new System.Drawing.Size(100, 29);
+            this.addUserButton.TabIndex = 3;
+            this.addUserButton.Text = "新增";
+            this.addUserButton.UseVisualStyleBackColor = true;
+            this.addUserButton.Click += new System.EventHandler(this.addUserButton_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(780, 38);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(173, 29);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "查询当前用户组用户";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(408, 44);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(127, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "当前选择的用户组";
             // 
             // FaceLibControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FaceLibControl";
-            this.Size = new System.Drawing.Size(730, 450);
+            this.Size = new System.Drawing.Size(973, 562);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -225,7 +255,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button addGroupButton;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
@@ -233,7 +263,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button addUserButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
