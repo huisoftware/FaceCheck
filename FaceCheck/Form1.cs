@@ -24,6 +24,16 @@ namespace FaceCheck
             groupBox1.Controls.Add(signControl);
         }
 
+        public Form1(List<string> groupList)  //跨窗口引用变量
+        {
+            InitializeComponent();
+            for (int i = 0; i < 10; ++i)
+            {
+                userGroup_listBox.Items.Add(groupList[i]);
+            }
+
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             signControl.Show();
@@ -43,6 +53,11 @@ namespace FaceCheck
 
 
 
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
         }
     }
