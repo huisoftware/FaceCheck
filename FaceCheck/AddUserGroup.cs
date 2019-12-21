@@ -16,8 +16,7 @@ namespace FaceCheck
     {
         Tts client2 = null;
         Face client = null;
-        groupId=
-        public AddUserGroup(Face clientAll, Tts client2All,groupId)
+        public AddUserGroup(Face clientAll, Tts client2All)
         {
             InitializeComponent();
             client = clientAll;
@@ -26,10 +25,10 @@ namespace FaceCheck
         
         private void Button1_Click(object sender, EventArgs e)
         {
-            var groupId=textBox1.Text
+            var groupId = textBox1.Text;
             var result = client.GroupAdd(groupId);
-            grouplist.Add(result);
-            renovate(groupList);
+            FaceLibControl.form.updateGroupList();
+            this.Close();
         }
     }
 }
