@@ -105,8 +105,7 @@ namespace FaceCheck
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
         public void renovate(List<string> group_list)
         {
-            Form1 child = new Form1(group_list);
-            child.ShowDialog();
+            Form1.form.listBoxAdd(group_list);
         }
 
         private void button1_Click(object sender, EventArgs e)

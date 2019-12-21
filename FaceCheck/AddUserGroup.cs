@@ -26,6 +26,10 @@ namespace FaceCheck
         private void Button1_Click(object sender, EventArgs e)
         {
             var groupId = textBox1.Text;
+            if (groupId.Length==0)
+            {
+                MessageBox.Show("请填写用户组id！");
+            }
             var result = client.GroupAdd(groupId);
             FaceLibControl.form.updateGroupList();
             this.Close();

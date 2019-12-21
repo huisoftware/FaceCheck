@@ -45,10 +45,10 @@ namespace FaceCheck
             form = this;
         }
 
-        public Form1(List<string> groupList)  //跨窗口引用变量
+        public void listBoxAdd(List<string> groupList)  //跨窗口引用变量
         {
-            InitializeComponent();
-            for (int i = 0; i < 10; ++i)
+            userGroup_listBox.Items.Clear();
+            for (int i = 0; i < groupList.Count; ++i)
             {
                 userGroup_listBox.Items.Add(groupList[i]);
             }
