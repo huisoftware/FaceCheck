@@ -91,11 +91,6 @@ namespace FaceCheck
             //页面数量=0
             //刷新用户列表
 
-
-
-            
-
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -103,6 +98,10 @@ namespace FaceCheck
             
             var list = result.GetValue("result")["group_id_list"].ToArray();
             var k = 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 50dd6d0560d052fdc2eb2b00cb0f44dc9a4a3aea
             FaceLibControl.groupList.Clear();
             foreach (string groupID in list)
             {

@@ -186,7 +186,7 @@ namespace FaceCheck
                 var userId = userList["user_id"];
                 //根据userId查询是否签到成功
                 //设置签到状态
-                Boolean isSign = FaceLibControl.form.;
+                Boolean isSign = Form1.form.AddSignNum(userId.ToString());
                 if (isSign)
                 {
                     audioStr = "签到成功，欢迎" + userInfo;
