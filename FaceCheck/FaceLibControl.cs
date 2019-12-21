@@ -14,18 +14,16 @@ namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
-
-        // 设置APPID/AK/SK
-        // 设置APPID/AK/SK
-        string API_KEY = "htxG3CCVEM1qHmDNyPlXmZKW";
-        string SECRET_KEY = "e0pDyckuYpLWeGsO9nkctamry9Gw1TGj";
-        string API_KEY2 = "IjlWHfoHUVi1RhUBxYQ6wPtl";
-        string SECRET_KEY2 = "KMNhzi71gVY5dlUHOSHVZM9FQzhj1jdl";
+        public static UserControl form;
         Tts client2 = null;
         Face client = null;
-        public FaceLibControl()
+        public FaceLibControl(Face clientAll, Tts client2All)
         {
             InitializeComponent();
+
+            Face client = clientAll;
+            Tts client2 = client2All;
+            form = this;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -52,7 +50,7 @@ namespace FaceCheck
             }
 
         }
-        List<string> groupList = new List<string>();
+        public static List<string> groupList = new List<string>();
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
 
