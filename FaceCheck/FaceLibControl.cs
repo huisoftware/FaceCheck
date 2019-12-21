@@ -153,5 +153,56 @@ namespace FaceCheck
             return string.Format("{0:x}", i - DateTime.Now.Ticks);
 
         }
+
+        private void updateFaceBt_Click(object sender, EventArgs e)
+        {
+            if (userList.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("请先选择用户", "错误");
+                return;
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择图片";
+            dialog.Filter = "图片文件(*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] files = dialog.FileNames;
+                var groupID = dataGridView1.CurrentCell.Value.ToString();
+                var uid = userList.CurrentCell.Value.ToString();
+                string userName = string.Empty;
+                InputName.Show(out userName);
+                update(files, groupID, userName, uid);
+            }
+        }
+
+        private string update(string[] imgPaths, string groupID, string name, string uid)
+        {
+            var key = 1;
+            foreach (string img in imgPaths)
+            {
+                var image = readImg(img);
+
+                var imageType = "BASE64";
+
+                var groupId = groupID;
+
+                var userId = uid;
+
+                // 如果有可选参数
+                var options = new Dictionary<string, object>{
+                    {"user_info", name},
+                };
+                if (key == 1)
+                {
+                    options.Add("action_type", "REPLACE ");
+                }
+                // 带参数调用人脸注册
+                var result = client.UserUpdate(image, imageType, groupId, userId, options);
+                key++;
+            }
+            return uid;
+        }
     }
 }

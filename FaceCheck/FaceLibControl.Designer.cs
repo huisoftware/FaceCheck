@@ -40,7 +40,7 @@
             this.userId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isSign = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button9 = new System.Windows.Forms.Button();
+            this.updateFaceBt = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -135,7 +135,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.userList);
-            this.groupBox2.Controls.Add(this.button9);
+            this.groupBox2.Controls.Add(this.updateFaceBt);
             this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Location = new System.Drawing.Point(408, 73);
@@ -185,15 +185,16 @@
             this.isSign.Name = "isSign";
             this.isSign.Width = 150;
             // 
-            // button9
+            // updateFaceBt
             // 
-            this.button9.Location = new System.Drawing.Point(231, 25);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(100, 28);
-            this.button9.TabIndex = 5;
-            this.button9.Text = "更新人脸";
-            this.button9.UseVisualStyleBackColor = true;
+            this.updateFaceBt.Location = new System.Drawing.Point(231, 25);
+            this.updateFaceBt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.updateFaceBt.Name = "updateFaceBt";
+            this.updateFaceBt.Size = new System.Drawing.Size(100, 28);
+            this.updateFaceBt.TabIndex = 5;
+            this.updateFaceBt.Text = "更新人脸";
+            this.updateFaceBt.UseVisualStyleBackColor = true;
+            this.updateFaceBt.Click += new System.EventHandler(this.updateFaceBt_Click);
             // 
             // button8
             // 
@@ -266,7 +267,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button updateFaceBt;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button3;
