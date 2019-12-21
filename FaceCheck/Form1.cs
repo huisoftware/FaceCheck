@@ -96,7 +96,7 @@ namespace FaceCheck
         {
             var result = faceLibControl.GroupGetlistDemo();
             
-            var list = result.GetValue("group_list").ToArray();
+            var list = result.GetValue("result")["group_id_list"].ToArray();
             var k = 0;
 
             FaceLibControl.groupList.Clear();

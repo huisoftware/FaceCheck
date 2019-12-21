@@ -25,7 +25,6 @@ namespace FaceCheck
             client = clientAll;
             client2 = client2All;
             form = this;
-            addUserGroup = new AddUserGroup(clientAll, client2All);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -37,15 +36,18 @@ namespace FaceCheck
         {
             var result = GroupGetlistDemo();
             // 每次查询前清空dataGridView1数据
-            while (this.dataGridView1.Rows.Count != 0)
+            this.dataGridView1.Rows.Clear();
+            /*while (this.dataGridView1.Rows.Count > 1)
             {
-                this.dataGridView1.Rows.RemoveAt(0);
-            }
+              
+                this.dataGridView1.Rows.Cl(1);
+            }*/
 
             //对dataGridView1赋予新的值
-            for (int i = 0; i <= result.GetValue("group_id_list").ToArray().Length - 1; i++)
+            for (int i = 0; i <= result.GetValue("result")["group_id_list"].ToArray().Length - 1; i++)
             {
-                dataGridView1.Rows[i].Cells[1].Value = result["group_id_list"][i];
+                var index = dataGridView1.Rows.Add();
+                dataGridView1.Rows[index].Cells[0].Value = result.GetValue("result")["group_id_list"][i];
             }
 
         }
@@ -69,7 +71,7 @@ namespace FaceCheck
         }
         public void GroupDeleteDemo()
         {
-            var groupId = "group1";
+            var groupId = dataGridView1.CurrentRow.Cells[0].Value.ToString();
 
             // 调用删除用户组，可能会抛出网络等异常，请使用try/catch捕获
             var result = client.GroupDelete(groupId);
@@ -96,10 +98,11 @@ namespace FaceCheck
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > -1)
+            this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            /*if (e.RowIndex > -1)
             {
-                this.textBox1.Text = this.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-            }
+                this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            }*/
         }
 
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
@@ -110,6 +113,7 @@ namespace FaceCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
+            addUserGroup = new AddUserGroup(client, client2);
             addUserGroup.Show();
             
         }
@@ -161,7 +165,7 @@ namespace FaceCheck
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string[] files = dialog.FileNames;
-                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                var groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
                 string userName = string.Empty;
                 InputName.Show(out userName);
                 register(files, groupID, userName);
@@ -232,8 +236,8 @@ namespace FaceCheck
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string[] files = dialog.FileNames;
-                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                var uid = userList.CurrentRow.Cells[1].Value.ToString();
+                var groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                var uid = userList.CurrentRow.Cells[0].Value.ToString();
                 string userName = string.Empty;
                 InputName.Show(out userName);
                 update(files, groupID, userName, uid);

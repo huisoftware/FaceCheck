@@ -54,10 +54,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(6, 20);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Location = new System.Drawing.Point(9, 30);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 22);
+            this.button1.Size = new System.Drawing.Size(90, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "新增";
             this.button1.UseVisualStyleBackColor = true;
@@ -70,11 +70,11 @@
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(14, 20);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Location = new System.Drawing.Point(21, 30);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(286, 416);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(429, 624);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "用户组";
@@ -84,29 +84,32 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.groupId});
-            this.dataGridView1.Location = new System.Drawing.Point(6, 50);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView1.Location = new System.Drawing.Point(9, 75);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(280, 362);
+            this.dataGridView1.Size = new System.Drawing.Size(420, 543);
             this.dataGridView1.TabIndex = 4;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupId
             // 
             this.groupId.HeaderText = "组id";
             this.groupId.MinimumWidth = 8;
             this.groupId.Name = "groupId";
+            this.groupId.ReadOnly = true;
             this.groupId.Width = 150;
             // 
             // stopGroupBt
             // 
-            this.stopGroupBt.Location = new System.Drawing.Point(228, 24);
+            this.stopGroupBt.Location = new System.Drawing.Point(342, 36);
+            this.stopGroupBt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.stopGroupBt.Name = "stopGroupBt";
-            this.stopGroupBt.Size = new System.Drawing.Size(72, 27);
+            this.stopGroupBt.Size = new System.Drawing.Size(108, 40);
             this.stopGroupBt.TabIndex = 3;
             this.stopGroupBt.Text = "停用";
             this.stopGroupBt.UseVisualStyleBackColor = true;
@@ -114,19 +117,20 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(156, 24);
+            this.button4.Location = new System.Drawing.Point(234, 36);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(58, 22);
+            this.button4.Size = new System.Drawing.Size(87, 33);
             this.button4.TabIndex = 2;
             this.button4.Text = "使用";
             this.button4.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(72, 20);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button2.Location = new System.Drawing.Point(108, 30);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(62, 22);
+            this.button2.Size = new System.Drawing.Size(93, 33);
             this.button2.TabIndex = 1;
             this.button2.Text = "删除";
             this.button2.UseVisualStyleBackColor = true;
@@ -138,11 +142,11 @@
             this.groupBox2.Controls.Add(this.updateFaceBt);
             this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Location = new System.Drawing.Point(306, 58);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Location = new System.Drawing.Point(459, 87);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(410, 378);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(615, 567);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "用户";
@@ -154,14 +158,15 @@
             this.userId,
             this.userName,
             this.isSign});
-            this.userList.Location = new System.Drawing.Point(8, 50);
-            this.userList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.userList.Location = new System.Drawing.Point(12, 75);
+            this.userList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.userList.MultiSelect = false;
             this.userList.Name = "userList";
+            this.userList.ReadOnly = true;
             this.userList.RowHeadersWidth = 62;
             this.userList.RowTemplate.Height = 23;
             this.userList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.userList.Size = new System.Drawing.Size(394, 322);
+            this.userList.Size = new System.Drawing.Size(591, 483);
             this.userList.TabIndex = 6;
             // 
             // userId
@@ -169,6 +174,7 @@
             this.userId.HeaderText = "用户id";
             this.userId.MinimumWidth = 8;
             this.userId.Name = "userId";
+            this.userId.ReadOnly = true;
             this.userId.Width = 150;
             // 
             // userName
@@ -176,6 +182,7 @@
             this.userName.HeaderText = "用户名";
             this.userName.MinimumWidth = 8;
             this.userName.Name = "userName";
+            this.userName.ReadOnly = true;
             this.userName.Width = 150;
             // 
             // isSign
@@ -183,14 +190,15 @@
             this.isSign.HeaderText = "是否签到";
             this.isSign.MinimumWidth = 8;
             this.isSign.Name = "isSign";
+            this.isSign.ReadOnly = true;
             this.isSign.Width = 150;
             // 
             // updateFaceBt
             // 
-            this.updateFaceBt.Location = new System.Drawing.Point(173, 20);
-            this.updateFaceBt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.updateFaceBt.Location = new System.Drawing.Point(260, 30);
+            this.updateFaceBt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.updateFaceBt.Name = "updateFaceBt";
-            this.updateFaceBt.Size = new System.Drawing.Size(75, 22);
+            this.updateFaceBt.Size = new System.Drawing.Size(112, 33);
             this.updateFaceBt.TabIndex = 5;
             this.updateFaceBt.Text = "更新人脸";
             this.updateFaceBt.UseVisualStyleBackColor = true;
@@ -198,20 +206,20 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(92, 20);
-            this.button8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button8.Location = new System.Drawing.Point(138, 30);
+            this.button8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 22);
+            this.button8.Size = new System.Drawing.Size(112, 33);
             this.button8.TabIndex = 4;
             this.button8.Text = "删除";
             this.button8.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(10, 20);
-            this.button7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button7.Location = new System.Drawing.Point(15, 30);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 22);
+            this.button7.Size = new System.Drawing.Size(112, 33);
             this.button7.TabIndex = 3;
             this.button7.Text = "新增";
             this.button7.UseVisualStyleBackColor = true;
@@ -219,10 +227,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(585, 30);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button3.Location = new System.Drawing.Point(878, 45);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(130, 22);
+            this.button3.Size = new System.Drawing.Size(195, 33);
             this.button3.TabIndex = 2;
             this.button3.Text = "查询当前用户组用户";
             this.button3.UseVisualStyleBackColor = true;
@@ -231,32 +239,34 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(306, 34);
+            this.label1.Location = new System.Drawing.Point(459, 51);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 12);
+            this.label1.Size = new System.Drawing.Size(152, 18);
             this.label1.TabIndex = 3;
             this.label1.Text = "当前选择的用户组";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(413, 30);
+            this.textBox1.Location = new System.Drawing.Point(620, 45);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
+            this.textBox1.Size = new System.Drawing.Size(148, 28);
             this.textBox1.TabIndex = 4;
             // 
             // FaceLibControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "FaceLibControl";
-            this.Size = new System.Drawing.Size(730, 450);
+            this.Size = new System.Drawing.Size(1095, 675);
             this.Load += new System.EventHandler(this.FaceLibControl_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
