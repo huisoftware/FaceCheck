@@ -71,6 +71,12 @@ namespace FaceCheck
             groupBox1.Controls.Clear();
             groupBox1.Controls.Add(faceLibControl);
         }
+
+        delegate void DelSetText(string text);
+        void SetText(string text) {
+            Invoke(new DelSetText((text_d) => { richTextBox1.Text = text_d; }), text);
+        }
+
         public Boolean AddSignNum(string id)
         {
             //判断id已存在list中，并更新list
@@ -80,8 +86,7 @@ namespace FaceCheck
             {
                 signList.Add(id);
                 string str = Convert.ToString(signList.Count());
-                richTextBox1.Text = str;
-
+                SetText(str);
                 return true;
              }
         }

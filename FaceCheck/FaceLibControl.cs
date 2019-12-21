@@ -16,6 +16,8 @@ namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
+        string userListUrl = Util.soundPath + "\\data\\user\\userlist.txt";
+
         public AddUserGroup addUserGroup;
         public static FaceLibControl form;
         Tts client2 = null;
@@ -55,15 +57,31 @@ namespace FaceCheck
             var result = client.GroupGetusers(groupId, options);
 
             userList.Rows.Clear();
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            if (File.Exists(userListUrl))
+            {
+                string[] userFileLine = File.ReadAllLines(userListUrl, Encoding.UTF8);
+                for (int i = 0; i < userFileLine.Length; i++)
+                {
+                    string[] oneLine = userFileLine[i].Split(' ');
+                    dic.Add(oneLine[0], oneLine[1]);
+                }
+            }
+            
+
             for (int i = 0; i <= result.GetValue("result")["user_id_list"].ToArray().Length - 1; i++)
             {
-                Thread.Sleep(350);
+
                 var uid = result.GetValue("result")["user_id_list"][i].ToString();
                 var index = userList.Rows.Add();
                 // 获取用户组用户ID
                 userList.Rows[index].Cells[0].Value = result.GetValue("result")["user_id_list"][i];
-                var res = client.UserGet(uid, groupId);
-                var userName = res.GetValue("result")["user_list"].ToArray()[0]["user_info"].ToString();
+                var userName = "";
+                if (dic.ContainsKey(uid))
+                {
+                    userName = dic[uid];
+                }
                 userList.Rows[index].Cells[1].Value = userName;
                 // 获取用户组用户名    备用字段
                 //userList.Rows[index].Cells[1].Value = result["user_id_list"][i];
@@ -84,11 +102,7 @@ namespace FaceCheck
             var result = GroupGetlistDemo();
             // 每次查询前清空dataGridView1数据
             this.dataGridView1.Rows.Clear();
-            /*while (this.dataGridView1.Rows.Count > 1)
-            {
-              
-                this.dataGridView1.Rows.Cl(1);
-            }*/
+            
 
             //对dataGridView1赋予新的值
             for (int i = 0; i <= result.GetValue("result")["group_id_list"].ToArray().Length - 1; i++)
@@ -126,6 +140,7 @@ namespace FaceCheck
             if ( i == 0)
             {
                 Form1.form.listBoxDel(groupId);
+                groupList.Remove(groupId);
                 MessageBox.Show("删除成功！");
             }
             else
@@ -147,10 +162,6 @@ namespace FaceCheck
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            /*if (e.RowIndex > -1)
-            {
-                this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            }*/
         }
 
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
@@ -224,9 +235,15 @@ namespace FaceCheck
 
         
 
-        private string register(string[] imgPaths, string groupID, string name)
+        private void register(string[] imgPaths, string groupID, string name)
         {
-            var uid = GenerateStringID();
+            var uid = Util.GenerateStringID();
+            if (!Directory.Exists(Util.soundPath + "\\data\\user\\"))
+            {
+                Directory.CreateDirectory(Util.soundPath + "\\data\\user\\");
+            }
+            File.AppendAllText(userListUrl, uid + " " + name + Environment.NewLine, Encoding.UTF8);
+
             foreach (string img in imgPaths)
             {
                 var image = readImg(img);
@@ -237,14 +254,25 @@ namespace FaceCheck
 
                 var userId = uid;
 
-                // 如果有可选参数
+                // 如果有可选参数     
                 var options = new Dictionary<string, object>{
                     {"user_info", name},
                 };
                 // 带参数调用人脸注册
                 var result = client.UserAdd(image, imageType, groupId, userId, options);
+                Thread.Sleep(350);
+                int i = Convert.ToInt32(result["error_code"]);
+                if (i == 0)
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("注册失败！");
+                    return;
+                }
             }
-            return uid;
+
         }
 
         private string readImg(string img)
@@ -252,23 +280,6 @@ namespace FaceCheck
             return Convert.ToBase64String(File.ReadAllBytes(img));
         }
 
-        private string GenerateStringID()
-
-        {
-
-            long i = 1;
-
-            foreach (byte b in Guid.NewGuid().ToByteArray())
-
-            {
-
-                i *= ((int)b + 1);
-
-            }
-
-            return string.Format("{0:x}", i - DateTime.Now.Ticks);
-
-        }
 
         private void updateFaceBt_Click(object sender, EventArgs e)
         {
@@ -287,13 +298,12 @@ namespace FaceCheck
                 string[] files = dialog.FileNames;
                 var groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
                 var uid = userList.CurrentRow.Cells[0].Value.ToString();
-                string userName = string.Empty;
-                InputName.Show(out userName);
-                update(files, groupID, userName, uid);
+                update(files, groupID, uid);
             }
+            MessageBox.Show("更新成功！");
         }
 
-        private string update(string[] imgPaths, string groupID, string name, string uid)
+        private void update(string[] imgPaths, string groupID, string uid)
         {
             var key = 1;
             foreach (string img in imgPaths)
@@ -306,19 +316,45 @@ namespace FaceCheck
 
                 var userId = uid;
 
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                if (File.Exists(userListUrl))
+                {
+                    string[] userFileLine = File.ReadAllLines(userListUrl, Encoding.UTF8);
+                    for (int j = 0; j < userFileLine.Length; j++)
+                    {
+                        string[] oneLine = userFileLine[j].Split(' ');
+                        dic.Add(oneLine[0], oneLine[1]);
+                    }
+                }
+                var userName = "";
+                if (dic.ContainsKey(uid))
+                {
+                    userName = dic[uid];
+                }
+
                 // 如果有可选参数
                 var options = new Dictionary<string, object>{
-                    {"user_info", name},
+                    {"user_info", userName},
                 };
                 if (key == 1)
                 {
-                    options.Add("action_type", "REPLACE ");
+                    options.Add("action_type", "REPLACE");
                 }
                 // 带参数调用人脸注册
                 var result = client.UserUpdate(image, imageType, groupId, userId, options);
                 key++;
+                Thread.Sleep(350);
+                int i = Convert.ToInt32(result["error_code"]);
+                if (i == 0)
+                {
+                    
+                }
+                else
+                {
+                    MessageBox.Show("更新失败！");
+                    return;
+                }
             }
-            return uid;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -339,6 +375,43 @@ namespace FaceCheck
                     renovate(groupList);
                 }
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //选择多行进行删除用户组
+            if (this.dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("无用户组！！");
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("确定要删除选中的用户组吗？", "提示", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK)
+            {
+                UserDelete();
+            }
+        }
+        public void UserDelete()
+        {
+            var groupId = textBox1.Text;
+            var userId = userList.CurrentRow.Cells[0].Value.ToString();
+
+            var result = client.UserDelete(groupId, userId);
+            int i = Convert.ToInt32(result["error_code"]);
+            if (i == 0)
+            {
+                MessageBox.Show("删除成功！");
+            }
+            else
+            {
+                MessageBox.Show("删除失败！");
+            }
+
+
+            //刷新
+            updateUserList(groupId);
+
         }
     }
 }

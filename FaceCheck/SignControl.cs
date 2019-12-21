@@ -23,7 +23,6 @@ namespace FaceCheck
         //播放声音单独线程
         static public Thread m_thread = null;
         static public CPlaySound g_playsound = new CPlaySound();
-        static public string soundPath = System.Windows.Forms.Application.StartupPath;
 
         Tts client2 = null;
         Face client = null;
@@ -155,7 +154,14 @@ namespace FaceCheck
         private void searchImgAndRead(Object obj1)
         {
             Image image1 = (Image)((IDataObject)obj1).GetData(typeof(Bitmap));
-            var image = Convert.ToBase64String(imageToByteArray(image1));
+            var imageId = Util.GenerateStringID();
+            if (!Directory.Exists(Util.soundPath + "\\data\\image\\"))
+            {
+                Directory.CreateDirectory(Util.soundPath + "\\data\\image\\");
+            }
+            string imageUrl = Util.soundPath + "\\data\\image\\" + imageId + ".jpg";
+            image1.Save(imageUrl);
+            var image = Convert.ToBase64String(File.ReadAllBytes(imageUrl));
             var imageType = "BASE64";
             List<string> groupList = FaceLibControl.groupList;
             if (groupList.Count==0)
@@ -175,13 +181,15 @@ namespace FaceCheck
                     stb.Append(groupList[i] + ",");
                 }
             }
-            
-            var result = client.Search(image, imageType, stb.ToString());
+            var options = new Dictionary<string, object>{
+                {"match_threshold", 80},
+            };
+            var result = client.Search(image, imageType, stb.ToString(), options);
             string audioStr = null;
             
             if (result.GetValue("error_code").ToString() == "0")
             {
-                var userList = result.GetValue("user_list")[0];
+                var userList = result.GetValue("result")["user_list"][0];
                 var userInfo = userList["user_info"];
                 var userId = userList["user_id"];
                 //根据userId查询是否签到成功
@@ -219,7 +227,7 @@ namespace FaceCheck
             if (result2.ErrorCode == 0)  // 或 result.Success
             {
                 File.WriteAllBytes("temp.wav", result2.Data);
-                g_playsound.Alarm(soundPath + "\\temp.wav");
+                g_playsound.Alarm(Util.soundPath + "\\temp.wav");
             }
             else
             {

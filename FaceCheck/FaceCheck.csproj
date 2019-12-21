@@ -102,6 +102,7 @@
     <Compile Include="SignControl.Designer.cs">
       <DependentUpon>SignControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="AddUserGroup.resx">
       <DependentUpon>AddUserGroup.cs</DependentUpon>
     </EmbeddedResource>
