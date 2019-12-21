@@ -108,8 +108,7 @@ namespace FaceCheck
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
         public void renovate(List<string> group_list)
         {
-            Form1 child = new Form1(group_list);
-            child.ShowDialog();
+            Form1.form.listBoxAdd(group_list);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -271,6 +270,26 @@ namespace FaceCheck
                 key++;
             }
             return uid;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("无用户组！！");
+                return;
+            }
+            string groupID;
+            DialogResult dr = MessageBox.Show("确定要使用选中的用户组吗？", "提示", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK)
+            {
+                groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                if (!groupList.Contains(groupID))
+                {
+                    groupList.Add(groupID);
+                    renovate(groupList);
+                }
+            }
         }
     }
 }
