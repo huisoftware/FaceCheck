@@ -13,11 +13,18 @@ using System.IO;
 using Baidu.Aip.Speech;
 using Baidu.Aip.Face;
 using System.Threading;
+using System.Media;
 
 namespace FaceCheck
 {
     public partial class SignControl : UserControl
     {
+
+        //播放声音单独线程
+        static public Thread m_thread = null;
+        static public CPlaySound g_playsound = new CPlaySound();
+        static public string soundPath = System.Windows.Forms.Application.StartupPath;
+
         // 设置APPID/AK/SK
         string API_KEY = "htxG3CCVEM1qHmDNyPlXmZKW";
         string SECRET_KEY = "e0pDyckuYpLWeGsO9nkctamry9Gw1TGj";
@@ -69,10 +76,6 @@ namespace FaceCheck
         [DllImport("vicap32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         public static extern bool capSetCallbackOnFrame(int hwnd, string s);
 
-        [DllImport("winmm.dll", SetLastError = true)]
-        #pragma warning disable IDE1006
-        static extern long mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hwndCallback);
-        #pragma warning restore IDE1006
 
         private void OpenCapture()
         {
@@ -106,6 +109,7 @@ namespace FaceCheck
                 client.Timeout = 60000;  // 修改超时时间
                 this.OpenCapture();
 
+                g_playsound.StartThred();
             }
             catch (Exception e1)
             {
@@ -153,6 +157,7 @@ namespace FaceCheck
             Image returnImage = Image.FromStream(ms);
             return returnImage;
         }
+
         private void searchImgAndRead(Object obj1)
         {
             Image image1 = (Image)((IDataObject)obj1).GetData(typeof(Bitmap));
@@ -160,39 +165,42 @@ namespace FaceCheck
             var imageType = "BASE64";
             var groupIdList = "3,2";
             var result = client.Search(image, imageType, groupIdList);
-
-            MessageBox.Show(result.ToString());
-
+            string audioStr = null;
+            
+            if (result.GetValue("error_code").ToString() == "0")
+            {
+                audioStr = result.GetValue("error_msg").ToString();
+            }
+            else
+            {
+                audioStr = "未能正确识别您的身份";
+            }
+            Thread thread = new Thread(new ParameterizedThreadStart(audioAlarm));
+            thread.IsBackground = true;
+            thread.Start(audioStr);
+            MessageBox.Show(audioStr);
+        }
+        private void audioAlarm(object audioStr)
+        {
             // 可选参数
             var option = new Dictionary<string, object>()
                     {
+                        {"aue", "6"}, // 格式wav
                         {"spd", 5}, // 语速
                         {"vol", 7}, // 音量
                         {"per", 4}  // 发音人，4：情感度丫丫童声
                      };
-            var result2 = client2.Synthesis(result.ToString(), option);
+            var result2 = client2.Synthesis((string)audioStr, option);
             if (result2.ErrorCode == 0)  // 或 result.Success
             {
-                File.WriteAllBytes("temp.mp3", result2.Data);
-
-                // 播放音频文件 
-                mciSendString("open temp.mp3 alias temp_alias", null, 0, IntPtr.Zero);
-                mciSendString("play temp_alias", null, 0, IntPtr.Zero);
-                // 等待播放结束 
-                StringBuilder strReturn = new StringBuilder(64);
-                do
-                {
-                    mciSendString("status temp_alias mode", strReturn, 64, IntPtr.Zero);
-                } while (!strReturn.ToString().Contains("stopped"));
-                // 关闭音频文件 
-                mciSendString("close temp_alias", null, 0, IntPtr.Zero);
+                File.WriteAllBytes("temp.wav", result2.Data);
+                g_playsound.Alarm(soundPath + "\\temp.wav");
             }
             else
             {
                 MessageBox.Show(result2.ToString());
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             

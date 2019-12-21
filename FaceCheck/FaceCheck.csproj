@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CPlaySound.cs" />
     <Compile Include="FaceLibControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
