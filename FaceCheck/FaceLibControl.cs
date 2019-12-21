@@ -147,7 +147,6 @@ namespace FaceCheck
             }
             renovate(groupList);
         }
-
         private void button7_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count < 1)
