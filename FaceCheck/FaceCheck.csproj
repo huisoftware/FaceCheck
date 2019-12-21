@@ -82,6 +82,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddUserGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUserGroup.Designer.cs">
+      <DependentUpon>AddUserGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="InputName.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     <Compile Include="SignControl.Designer.cs">
       <DependentUpon>SignControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddUserGroup.resx">
+      <DependentUpon>AddUserGroup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FaceLibControl.resx">
       <DependentUpon>FaceLibControl.cs</DependentUpon>
     </EmbeddedResource>

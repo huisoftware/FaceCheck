@@ -19,7 +19,7 @@ namespace FaceCheck
 {
     public partial class SignControl : UserControl
     {
-        public static UserControl form;
+        public static SignControl form;
         //播放声音单独线程
         static public Thread m_thread = null;
         static public CPlaySound g_playsound = new CPlaySound();
@@ -97,8 +97,8 @@ namespace FaceCheck
             try
             {
                 InitializeComponent();
-                Face client = clientAll;
-                Tts client2 = client2All;
+                client = clientAll;
+                client2 = client2All;
 
                 this.OpenCapture();
 
@@ -186,7 +186,7 @@ namespace FaceCheck
                 var userId = userList["user_id"];
                 //根据userId查询是否签到成功
                 //设置签到状态
-                Boolean isSign = false;
+                Boolean isSign = Form1.form.AddSignNum(userId.ToString());
                 if (isSign)
                 {
                     audioStr = "签到成功，欢迎" + userInfo;

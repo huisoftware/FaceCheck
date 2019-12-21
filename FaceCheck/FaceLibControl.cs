@@ -15,15 +15,15 @@ namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
-
-        public static UserControl form;
+        public AddUserGroup addUserGroup;
+        public static FaceLibControl form;
         Tts client2 = null;
         Face client = null;
         public FaceLibControl(Face clientAll, Tts client2All)
         {
             InitializeComponent();
-            Face client = clientAll;
-            Tts client2 = client2All;
+            client = clientAll;
+            client2 = client2All;
             form = this;
         }
 
@@ -31,11 +31,34 @@ namespace FaceCheck
         {
 
         }
-        public void GroupGetlistDemo()
+
+        public void updateGroupList()
+        {
+            var result = GroupGetlistDemo();
+            // 每次查询前清空dataGridView1数据
+            this.dataGridView1.Rows.Clear();
+            /*while (this.dataGridView1.Rows.Count > 1)
+            {
+              
+                this.dataGridView1.Rows.Cl(1);
+            }*/
+
+            //对dataGridView1赋予新的值
+            for (int i = 0; i <= result.GetValue("result")["group_id_list"].ToArray().Length - 1; i++)
+            {
+                var index = dataGridView1.Rows.Add();
+                dataGridView1.Rows[index].Cells[0].Value = result.GetValue("result")["group_id_list"][i];
+            }
+
+        }
+
+        //创建用户组列表
+        public static List<string> groupList = new List<string>();
+
+        public Newtonsoft.Json.Linq.JObject GroupGetlistDemo()
         {
             // 调用组列表查询，可能会抛出网络等异常，请使用try/catch捕获
             var result = client.GroupGetlist();
-            Console.WriteLine(result);
             // 如果有可选参数
             var options = new Dictionary<string, object>{
             {"start", 0},
@@ -43,24 +66,45 @@ namespace FaceCheck
                                          };
             // 带参数调用组列表查询
             result = client.GroupGetlist(options);
-
-
-            for (int i = 0; i <= result["group_id_list"].ToArray().Length - 1; i++)
-            {
-                dataGridView1.Rows[i].Cells[1].Value = result["group_id_list"][i];
-            }
+            return result;
 
         }
-        List<string> groupList = new List<string>();
+        public void GroupDeleteDemo()
+        {
+            var groupId = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+
+            // 调用删除用户组，可能会抛出网络等异常，请使用try/catch捕获
+            var result = client.GroupDelete(groupId);
+            int i = Convert.ToInt32(result["error_code"]);
+            if ( i == 0)
+            {
+                MessageBox.Show("删除成功！");
+            }
+            else
+            {
+                MessageBox.Show("删除失败！");
+            }
+  
+            //刷新dataGridview
+            updateGroupList();
+
+        }
+       
+
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
-
+            updateGroupList();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            /*if (e.RowIndex > -1)
+            {
+                this.textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            }*/
         }
+
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
         public void renovate(List<string> group_list)
         {
@@ -70,16 +114,44 @@ namespace FaceCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            groupList.Add("需要填写");
-            renovate(groupList);
+            addUserGroup = new AddUserGroup(client, client2);
+            addUserGroup.Show();
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            groupList.Remove("需要删除");
-            renovate(groupList);
+            //选择多行进行删除用户组
+            if (this.dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("无用户组！！");
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("确定要删除选中的用户组吗？","提示", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK)
+            {
+                GroupDeleteDemo();
+            }
+
         }
 
+        private void stopGroupBt_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("无用户组！！");
+                return;
+            }
+            string groupID;
+            DialogResult dr = MessageBox.Show("确定要停用选中的用户组吗？", "提示", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK)
+            {
+                groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                groupList.Remove(groupID);
+            }
+            renovate(groupList);
+        }
         private void button7_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count < 1)
