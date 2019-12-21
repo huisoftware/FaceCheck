@@ -98,7 +98,7 @@ namespace FaceCheck
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string[] files = dialog.FileNames;
-                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                var groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
                 string userName = string.Empty;
                 InputName.Show(out userName);
                 register(files, groupID, userName);
@@ -169,8 +169,8 @@ namespace FaceCheck
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string[] files = dialog.FileNames;
-                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                var uid = userList.CurrentRow.Cells[1].Value.ToString();
+                var groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                var uid = userList.CurrentRow.Cells[0].Value.ToString();
                 string userName = string.Empty;
                 InputName.Show(out userName);
                 update(files, groupID, userName, uid);
