@@ -80,5 +80,10 @@ namespace FaceCheck
             groupList.Remove("需要删除");
             renovate(groupList);
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
