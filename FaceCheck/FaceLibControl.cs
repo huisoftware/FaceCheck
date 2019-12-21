@@ -15,16 +15,17 @@ namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
-
-        public static UserControl form;
+        public AddUserGroup addUserGroup;
+        public static FaceLibControl form;
         Tts client2 = null;
         Face client = null;
         public FaceLibControl(Face clientAll, Tts client2All)
         {
             InitializeComponent();
-            Face client = clientAll;
-            Tts client2 = client2All;
+            client = clientAll;
+            client2 = client2All;
             form = this;
+            addUserGroup = new AddUserGroup(clientAll, client2All);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -32,7 +33,7 @@ namespace FaceCheck
 
         }
 
-        private void updateGroupList()
+        public void updateGroupList()
         {
             var result = GroupGetlistDemo();
             // 每次查询前清空dataGridView1数据
@@ -50,7 +51,7 @@ namespace FaceCheck
         }
 
         //创建用户组列表
-        public List<string> groupList = new List<string>();
+        public static List<string> groupList = new List<string>();
 
         public Newtonsoft.Json.Linq.JObject GroupGetlistDemo()
         {
@@ -86,7 +87,7 @@ namespace FaceCheck
             updateGroupList();
 
         }
-
+       
 
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
@@ -95,7 +96,10 @@ namespace FaceCheck
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex > -1)
+            {
+                this.textBox1.Text = this.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            }
         }
 
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
@@ -107,7 +111,7 @@ namespace FaceCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            groupList.Add("需要填写");
+            addUserGroup.Show();
             
         }
 
@@ -144,7 +148,6 @@ namespace FaceCheck
             }
             renovate(groupList);
         }
-
         private void button7_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count < 1)
