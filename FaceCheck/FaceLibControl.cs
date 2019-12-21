@@ -16,14 +16,14 @@ namespace FaceCheck
     public partial class FaceLibControl : UserControl
     {
 
-        public static UserControl form;
+        public static FaceLibControl form;
         Tts client2 = null;
         Face client = null;
         public FaceLibControl(Face clientAll, Tts client2All)
         {
             InitializeComponent();
-            Face client = clientAll;
-            Tts client2 = client2All;
+            client = clientAll;
+            client2 = client2All;
             form = this;
         }
 
@@ -50,7 +50,7 @@ namespace FaceCheck
         }
 
         //创建用户组列表
-        public List<string> groupList = new List<string>();
+        public static List<string> groupList = new List<string>();
 
         public Newtonsoft.Json.Linq.JObject GroupGetlistDemo()
         {
