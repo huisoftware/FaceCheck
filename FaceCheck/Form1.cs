@@ -104,6 +104,7 @@ namespace FaceCheck
             {
                 if (k > 9) break;
                 FaceLibControl.groupList.Add(groupID);
+                userGroup_listBox.Items.Add(groupID);
                 k++;
             }
         }

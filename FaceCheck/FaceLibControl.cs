@@ -271,5 +271,25 @@ namespace FaceCheck
             }
             return uid;
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("无用户组！！");
+                return;
+            }
+            string groupID;
+            DialogResult dr = MessageBox.Show("确定要使用选中的用户组吗？", "提示", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK)
+            {
+                groupID = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                if (!groupList.Contains(groupID))
+                {
+                    groupList.Add(groupID);
+                    renovate(groupList);
+                }
+            }
+        }
     }
 }
