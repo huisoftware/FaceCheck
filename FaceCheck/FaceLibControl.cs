@@ -9,21 +9,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Baidu.Aip.Speech;
 using Baidu.Aip.Face;
+using System.IO;
 
 namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
-        public static UserControl form;
+
+        // 设置APPID/AK/SK
+        // 设置APPID/AK/SK
+        string API_KEY = "htxG3CCVEM1qHmDNyPlXmZKW";
+        string SECRET_KEY = "e0pDyckuYpLWeGsO9nkctamry9Gw1TGj";
+        string API_KEY2 = "IjlWHfoHUVi1RhUBxYQ6wPtl";
+        string SECRET_KEY2 = "KMNhzi71gVY5dlUHOSHVZM9FQzhj1jdl";
         Tts client2 = null;
         Face client = null;
-        public FaceLibControl(Face clientAll, Tts client2All)
+        public FaceLibControl()
         {
             InitializeComponent();
-
-            Face client = clientAll;
-            Tts client2 = client2All;
-            form = this;
+            client = new Face(API_KEY, SECRET_KEY);
+            client.Timeout = 60000;  // 修改超时时间
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -50,7 +55,7 @@ namespace FaceCheck
             }
 
         }
-        public static List<string> groupList = new List<string>();
+        List<string> groupList = new List<string>();
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
 
@@ -77,6 +82,127 @@ namespace FaceCheck
         {
             groupList.Remove("需要删除");
             renovate(groupList);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("请先选择用户组", "错误");
+                return;
+            }
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择图片";
+            dialog.Filter = "图片文件(*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] files = dialog.FileNames;
+                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                string userName = string.Empty;
+                InputName.Show(out userName);
+                register(files, groupID, userName);
+            }
+            
+        }
+
+        
+
+        private string register(string[] imgPaths, string groupID, string name)
+        {
+            var uid = GenerateStringID();
+            foreach (string img in imgPaths)
+            {
+                var image = readImg(img);
+
+                var imageType = "BASE64";
+
+                var groupId = groupID;
+
+                var userId = uid;
+
+                // 如果有可选参数
+                var options = new Dictionary<string, object>{
+                    {"user_info", name},
+                };
+                // 带参数调用人脸注册
+                var result = client.UserAdd(image, imageType, groupId, userId, options);
+            }
+            return uid;
+        }
+
+        private string readImg(string img)
+        {
+            return Convert.ToBase64String(File.ReadAllBytes(img));
+        }
+
+        private string GenerateStringID()
+
+        {
+
+            long i = 1;
+
+            foreach (byte b in Guid.NewGuid().ToByteArray())
+
+            {
+
+                i *= ((int)b + 1);
+
+            }
+
+            return string.Format("{0:x}", i - DateTime.Now.Ticks);
+
+        }
+
+        private void updateFaceBt_Click(object sender, EventArgs e)
+        {
+            if (userList.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("请先选择用户", "错误");
+                return;
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择图片";
+            dialog.Filter = "图片文件(*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] files = dialog.FileNames;
+                var groupID = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                var uid = userList.CurrentRow.Cells[1].Value.ToString();
+                string userName = string.Empty;
+                InputName.Show(out userName);
+                update(files, groupID, userName, uid);
+            }
+        }
+
+        private string update(string[] imgPaths, string groupID, string name, string uid)
+        {
+            var key = 1;
+            foreach (string img in imgPaths)
+            {
+                var image = readImg(img);
+
+                var imageType = "BASE64";
+
+                var groupId = groupID;
+
+                var userId = uid;
+
+                // 如果有可选参数
+                var options = new Dictionary<string, object>{
+                    {"user_info", name},
+                };
+                if (key == 1)
+                {
+                    options.Add("action_type", "REPLACE ");
+                }
+                // 带参数调用人脸注册
+                var result = client.UserUpdate(image, imageType, groupId, userId, options);
+                key++;
+            }
+            return uid;
         }
     }
 }
