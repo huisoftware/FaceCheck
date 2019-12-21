@@ -95,7 +95,10 @@ namespace FaceCheck
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex > -1)
+            {
+                this.textBox1.Text = this.dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            }
         }
 
         // 刷新首页用户组，增加删除用户组可在一级窗口刷新显示默认10个
