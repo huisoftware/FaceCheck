@@ -91,22 +91,18 @@ namespace FaceCheck
             //页面数量=0
             //刷新用户列表
 
-
-
-            
-
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             var result = faceLibControl.GroupGetlistDemo();
             var list = result["group_list"].ToArray();
             var k = 0;
-            faceLibControl.groupList.Clear();
+
+            FaceLibControl.groupList.Clear();
             foreach (string groupID in list)
             {
                 if (k > 9) break;
-                faceLibControl.groupList.Add(groupID);
+                FaceLibControl.groupList.Add(groupID);
                 k++;
             }
         }
