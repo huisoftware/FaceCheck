@@ -101,13 +101,13 @@ namespace FaceCheck
         {
             var result = faceLibControl.GroupGetlistDemo();
             
-            var list = result.GetValue("group_list").ToArray();
+            var list = result.GetValue("result")["group_id_list"].ToArray();
             var k = 0;
-            faceLibControl.groupList.Clear();
+            FaceLibControl.groupList.Clear();
             foreach (string groupID in list)
             {
                 if (k > 9) break;
-                faceLibControl.groupList.Add(groupID);
+                FaceLibControl.groupList.Add(groupID);
                 k++;
             }
         }

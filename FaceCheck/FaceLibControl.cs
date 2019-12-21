@@ -43,9 +43,9 @@ namespace FaceCheck
             }
 
             //对dataGridView1赋予新的值
-            for (int i = 0; i <= result.GetValue("group_id_list").ToArray().Length - 1; i++)
+            for (int i = 0; i <= result.GetValue("result")["group_id_list"].ToArray().Length - 1; i++)
             {
-                dataGridView1.Rows[i].Cells[1].Value = result["group_id_list"][i];
+                dataGridView1.Rows[i].Cells[1].Value = result.GetValue("result")["group_id_list"][i];
             }
 
         }
