@@ -98,10 +98,7 @@ namespace FaceCheck
             
             var list = result.GetValue("result")["group_id_list"].ToArray();
             var k = 0;
-<<<<<<< HEAD
-=======
 
->>>>>>> 50dd6d0560d052fdc2eb2b00cb0f44dc9a4a3aea
             FaceLibControl.groupList.Clear();
             foreach (string groupID in list)
             {
