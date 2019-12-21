@@ -50,7 +50,7 @@ namespace FaceCheck
         }
 
         //创建用户组列表
-        List<string> groupList = new List<string>();
+        public List<string> groupList = new List<string>();
 
         public Newtonsoft.Json.Linq.JObject GroupGetlistDemo()
         {
