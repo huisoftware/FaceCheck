@@ -86,7 +86,7 @@ namespace FaceCheck
             updateGroupList();
 
         }
-
+        public AddUserGroup addUserGroup;
 
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
@@ -110,7 +110,9 @@ namespace FaceCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            groupList.Add("需要填写");
+            addUserGroup.Show();
+            
+
             
         }
 
