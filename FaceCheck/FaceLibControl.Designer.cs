@@ -32,15 +32,15 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button5 = new System.Windows.Forms.Button();
+            this.stopGroupBt = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.userList = new System.Windows.Forms.DataGridView();
             this.userId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isSign = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button9 = new System.Windows.Forms.Button();
+            this.updateFaceBt = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -48,7 +48,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userList)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -65,7 +65,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.stopGroupBt);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
@@ -77,7 +77,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "用户组";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // dataGridView1
             // 
@@ -102,20 +101,21 @@
             this.groupId.Name = "groupId";
             this.groupId.Width = 150;
             // 
-            // button5
+            // stopGroupBt
             // 
-            this.button5.Location = new System.Drawing.Point(270, 25);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(85, 28);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "停用";
-            this.button5.UseVisualStyleBackColor = true;
+            this.stopGroupBt.Location = new System.Drawing.Point(304, 30);
+            this.stopGroupBt.Margin = new System.Windows.Forms.Padding(4);
+            this.stopGroupBt.Name = "stopGroupBt";
+            this.stopGroupBt.Size = new System.Drawing.Size(96, 34);
+            this.stopGroupBt.TabIndex = 3;
+            this.stopGroupBt.Text = "停用";
+            this.stopGroupBt.UseVisualStyleBackColor = true;
+            this.stopGroupBt.Click += new System.EventHandler(this.stopGroupBt_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(185, 25);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.button4.Location = new System.Drawing.Point(208, 30);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(77, 28);
             this.button4.TabIndex = 2;
@@ -135,8 +135,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dataGridView2);
-            this.groupBox2.Controls.Add(this.button9);
+            this.groupBox2.Controls.Add(this.userList);
+            this.groupBox2.Controls.Add(this.updateFaceBt);
             this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Location = new System.Drawing.Point(408, 73);
@@ -148,22 +148,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "用户";
             // 
-            // dataGridView2
+            // userList
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.userList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.userList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.userId,
             this.userName,
             this.isSign});
-            this.dataGridView2.Location = new System.Drawing.Point(11, 62);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 62;
-            this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(526, 402);
-            this.dataGridView2.TabIndex = 6;
+            this.userList.Location = new System.Drawing.Point(11, 62);
+            this.userList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.userList.MultiSelect = false;
+            this.userList.Name = "userList";
+            this.userList.RowHeadersWidth = 62;
+            this.userList.RowTemplate.Height = 23;
+            this.userList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.userList.Size = new System.Drawing.Size(526, 402);
+            this.userList.TabIndex = 6;
             // 
             // userId
             // 
@@ -186,15 +186,16 @@
             this.isSign.Name = "isSign";
             this.isSign.Width = 150;
             // 
-            // button9
+            // updateFaceBt
             // 
-            this.button9.Location = new System.Drawing.Point(231, 25);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(100, 28);
-            this.button9.TabIndex = 5;
-            this.button9.Text = "更新人脸";
-            this.button9.UseVisualStyleBackColor = true;
+            this.updateFaceBt.Location = new System.Drawing.Point(231, 25);
+            this.updateFaceBt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.updateFaceBt.Name = "updateFaceBt";
+            this.updateFaceBt.Size = new System.Drawing.Size(100, 28);
+            this.updateFaceBt.TabIndex = 5;
+            this.updateFaceBt.Text = "更新人脸";
+            this.updateFaceBt.UseVisualStyleBackColor = true;
+            this.updateFaceBt.Click += new System.EventHandler(this.updateFaceBt_Click);
             // 
             // button8
             // 
@@ -215,6 +216,7 @@
             this.button7.TabIndex = 3;
             this.button7.Text = "新增";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button3
             // 
@@ -252,7 +254,7 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,18 +264,18 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button stopGroupBt;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button updateFaceBt;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupId;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView userList;
         private System.Windows.Forms.DataGridViewTextBoxColumn userId;
         private System.Windows.Forms.DataGridViewTextBoxColumn userName;
         private System.Windows.Forms.DataGridViewTextBoxColumn isSign;

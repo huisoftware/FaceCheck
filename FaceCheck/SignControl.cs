@@ -13,16 +13,18 @@ using System.IO;
 using Baidu.Aip.Speech;
 using Baidu.Aip.Face;
 using System.Threading;
+using System.Media;
 
 namespace FaceCheck
 {
     public partial class SignControl : UserControl
     {
-        // 设置APPID/AK/SK
-        string API_KEY = "htxG3CCVEM1qHmDNyPlXmZKW";
-        string SECRET_KEY = "e0pDyckuYpLWeGsO9nkctamry9Gw1TGj";
-        string API_KEY2 = "IjlWHfoHUVi1RhUBxYQ6wPtl";
-        string SECRET_KEY2 = "KMNhzi71gVY5dlUHOSHVZM9FQzhj1jdl";
+        public static UserControl form;
+        //播放声音单独线程
+        static public Thread m_thread = null;
+        static public CPlaySound g_playsound = new CPlaySound();
+        static public string soundPath = System.Windows.Forms.Application.StartupPath;
+
         Tts client2 = null;
         Face client = null;
 
@@ -69,10 +71,6 @@ namespace FaceCheck
         [DllImport("vicap32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         public static extern bool capSetCallbackOnFrame(int hwnd, string s);
 
-        [DllImport("winmm.dll", SetLastError = true)]
-        #pragma warning disable IDE1006
-        static extern long mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hwndCallback);
-        #pragma warning restore IDE1006
 
         private void OpenCapture()
         {
@@ -94,23 +92,23 @@ namespace FaceCheck
                 SignControl.DestroyWindow(this.hHwnd);
             }
         }
-        public SignControl()
+        public SignControl(Face clientAll, Tts client2All)
         {
             try
             {
                 InitializeComponent();
-                client2 = new Tts(API_KEY2, SECRET_KEY2);
-                client2.Timeout = 60000;  // 修改超时时间
+                Face client = clientAll;
+                Tts client2 = client2All;
 
-                client = new Face(API_KEY, SECRET_KEY);
-                client.Timeout = 60000;  // 修改超时时间
                 this.OpenCapture();
 
+                g_playsound.StartThred();
             }
             catch (Exception e1)
             {
                 MessageBox.Show(e1.ToString());
             }
+            form = this;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -153,46 +151,81 @@ namespace FaceCheck
             Image returnImage = Image.FromStream(ms);
             return returnImage;
         }
+
         private void searchImgAndRead(Object obj1)
         {
             Image image1 = (Image)((IDataObject)obj1).GetData(typeof(Bitmap));
             var image = Convert.ToBase64String(imageToByteArray(image1));
             var imageType = "BASE64";
-            var groupIdList = "3,2";
-            var result = client.Search(image, imageType, groupIdList);
-
-            MessageBox.Show(result.ToString());
-
+            List<string> groupList = FaceLibControl.groupList;
+            if (groupList.Count==0)
+            {
+                MessageBox.Show("没有启用的用户组");
+                return;
+            }
+            StringBuilder stb = new StringBuilder();
+            for(int i=0;i< groupList.Count; i++)
+            {
+                if (groupList.Count==i+1)
+                {
+                    stb.Append(groupList[i]);
+                }
+                else
+                {
+                    stb.Append(groupList[i] + ",");
+                }
+            }
+            
+            var result = client.Search(image, imageType, stb.ToString());
+            string audioStr = null;
+            
+            if (result.GetValue("error_code").ToString() == "0")
+            {
+                var userList = result.GetValue("user_list")[0];
+                var userInfo = userList["user_info"];
+                var userId = userList["user_id"];
+                //根据userId查询是否签到成功
+                //设置签到状态
+                Boolean isSign = false;
+                if (isSign)
+                {
+                    audioStr = "签到成功，欢迎" + userInfo;
+                }
+                else
+                {
+                    audioStr = userInfo + "您已签到过，请勿重复签到";
+                }
+            }
+            else
+            {
+                audioStr = "未能正确识别您的身份";
+            }
+            Thread thread = new Thread(new ParameterizedThreadStart(audioAlarm));
+            thread.IsBackground = true;
+            thread.Start(audioStr);
+            MessageBox.Show(audioStr);
+        }
+        private void audioAlarm(object audioStr)
+        {
             // 可选参数
             var option = new Dictionary<string, object>()
                     {
+                        {"aue", "6"}, // 格式wav
                         {"spd", 5}, // 语速
                         {"vol", 7}, // 音量
                         {"per", 4}  // 发音人，4：情感度丫丫童声
                      };
-            var result2 = client2.Synthesis(result.ToString(), option);
+            var result2 = client2.Synthesis((string)audioStr, option);
             if (result2.ErrorCode == 0)  // 或 result.Success
             {
-                File.WriteAllBytes("temp.mp3", result2.Data);
-
-                // 播放音频文件 
-                mciSendString("open temp.mp3 alias temp_alias", null, 0, IntPtr.Zero);
-                mciSendString("play temp_alias", null, 0, IntPtr.Zero);
-                // 等待播放结束 
-                StringBuilder strReturn = new StringBuilder(64);
-                do
-                {
-                    mciSendString("status temp_alias mode", strReturn, 64, IntPtr.Zero);
-                } while (!strReturn.ToString().Contains("stopped"));
-                // 关闭音频文件 
-                mciSendString("close temp_alias", null, 0, IntPtr.Zero);
+                File.WriteAllBytes("temp.wav", result2.Data);
+                g_playsound.Alarm(soundPath + "\\temp.wav");
             }
             else
             {
                 MessageBox.Show(result2.ToString());
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             
