@@ -15,7 +15,7 @@ namespace FaceCheck
 {
     public partial class FaceLibControl : UserControl
     {
-
+        public AddUserGroup addUserGroup;
         public static FaceLibControl form;
         Tts client2 = null;
         Face client = null;
@@ -25,6 +25,7 @@ namespace FaceCheck
             client = clientAll;
             client2 = client2All;
             form = this;
+            addUserGroup = new AddUserGroup(clientAll, client2All);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -32,7 +33,7 @@ namespace FaceCheck
 
         }
 
-        private void updateGroupList()
+        public void updateGroupList()
         {
             var result = GroupGetlistDemo();
             // 每次查询前清空dataGridView1数据
@@ -42,7 +43,7 @@ namespace FaceCheck
             }
 
             //对dataGridView1赋予新的值
-            for (int i = 0; i <= result["group_id_list"].ToArray().Length - 1; i++)
+            for (int i = 0; i <= result.GetValue("group_id_list").ToArray().Length - 1; i++)
             {
                 dataGridView1.Rows[i].Cells[1].Value = result["group_id_list"][i];
             }
@@ -86,7 +87,7 @@ namespace FaceCheck
             updateGroupList();
 
         }
-
+       
 
         private void FaceLibControl_Load(object sender, EventArgs e)
         {
@@ -110,7 +111,7 @@ namespace FaceCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            groupList.Add("需要填写");
+            addUserGroup.Show();
             
         }
 
