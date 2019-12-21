@@ -78,6 +78,7 @@ namespace FaceCheck
             int i = Convert.ToInt32(result["error_code"]);
             if ( i == 0)
             {
+                Form1.form.listBoxDel(groupId);
                 MessageBox.Show("删除成功！");
             }
             else

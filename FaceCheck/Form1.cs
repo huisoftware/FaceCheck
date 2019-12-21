@@ -44,7 +44,10 @@ namespace FaceCheck
 
             form = this;
         }
-
+        public void listBoxDel(string groupId)  //跨窗口引用变量
+        {
+            userGroup_listBox.Items.Remove(groupId);
+        }
         public void listBoxAdd(List<string> groupList)  //跨窗口引用变量
         {
             userGroup_listBox.Items.Clear();
