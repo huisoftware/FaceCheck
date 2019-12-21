@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Baidu.Aip.Speech;
 using Baidu.Aip.Face;
 using System.IO;
+using System.Threading;
 
 namespace FaceCheck
 {
@@ -29,7 +30,53 @@ namespace FaceCheck
 
         private void button3_Click(object sender, EventArgs e)
         {
+            var groupId = textBox1.Text;
 
+            updateUserList(groupId);
+
+        }
+
+        public void updateUserList(string groupId)
+        {
+            // 每次查询前判断是否已选择用户组
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+
+            {
+                MessageBox.Show("请选择相应的用户组！");
+                return;
+            }
+
+            // 如果有可选参数
+            var options = new Dictionary<string, object>{
+                        {"start", 0},
+                        {"length", 100}
+                                                         };
+            // 带参数调用获取用户组列表
+            var result = client.GroupGetusers(groupId, options);
+
+            userList.Rows.Clear();
+            for (int i = 0; i <= result.GetValue("result")["user_id_list"].ToArray().Length - 1; i++)
+            {
+                Thread.Sleep(350);
+                var uid = result.GetValue("result")["user_id_list"][i].ToString();
+                var index = userList.Rows.Add();
+                // 获取用户组用户ID
+                userList.Rows[index].Cells[0].Value = result.GetValue("result")["user_id_list"][i];
+                var res = client.UserGet(uid, groupId);
+                var userName = res.GetValue("result")["user_list"].ToArray()[0]["user_info"].ToString();
+                userList.Rows[index].Cells[1].Value = userName;
+                // 获取用户组用户名    备用字段
+                //userList.Rows[index].Cells[1].Value = result["user_id_list"][i];
+                //获取用户组用户是否签到   
+                // Form[signList]
+                string isSign = "否";
+                if (Form1.signList.Contains(uid))
+                {
+                    isSign = "是";
+                }
+                userList.Rows[index].Cells[2].Value = isSign;
+
+            }
         }
 
         public void updateGroupList()
@@ -170,6 +217,7 @@ namespace FaceCheck
                 string userName = string.Empty;
                 InputName.Show(out userName);
                 register(files, groupID, userName);
+                updateUserList(groupID);
             }
             
         }
