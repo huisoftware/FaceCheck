@@ -14,6 +14,12 @@ using Baidu.Aip.Speech;
 using Baidu.Aip.Face;
 using System.Threading;
 using System.Media;
+//using AForge
+using AForge;
+using AForge.Video;
+using AForge.Video.DirectShow;
+using AForge.Video.FFMPEG;
+using AForge.Controls;
 
 namespace FaceCheck
 {
@@ -27,20 +33,16 @@ namespace FaceCheck
         Tts client2 = null;
         Face client = null;
 
-        private bool isOpen = true;
-        private int hHwnd;
-        private const int port = 2000;
-        public struct videohdr_tag
-        {
-            public byte[] lpData;
-            public int dwBufferLength;
-            public int dwBytesUsed;
-            public int dwTimeCaptured;
-            public int dwUser;
-            public int dwFlags;
-            public int[] dwReserved;
+        private FilterInfoCollection videoDevices;  //摄像头设备
+        private VideoCaptureDevice videoSource;     //视频的来源选择
+        private VideoSourcePlayer videoSourcePlayer;    //AForge控制控件
+        private VideoFileWriter writer;     //写入到视频
+        System.Timers.Timer timer_count;
+        int tick_num = 0;
 
-        }
+
+        private bool isOpen = true;//摄像头是否打开
+        
         public void GroupGetlistDemo()
         {
             // 调用组列表查询，可能会抛出网络等异常，请使用try/catch捕获
@@ -53,44 +55,11 @@ namespace FaceCheck
             var result = client.GroupGetlist(options);
             Console.WriteLine(result);
         }
-
-        public delegate bool CallBack(int hwnd, int lParam);
-        [DllImport("avicap32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern int capCreateCaptureWindowA([MarshalAs(UnmanagedType.VBByRefStr)]   ref string lpszWindowName, int dwStyle, int x, int y, int nWidth, short nHeight, int hWndParent, int nID);
-        [DllImport("avicap32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern bool capGetDriverDescriptionA(short wDriver, [MarshalAs(UnmanagedType.VBByRefStr)]   ref string lpszName, int cbName, [MarshalAs(UnmanagedType.VBByRefStr)]   ref string lpszVer, int cbVer);
-        [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern bool DestroyWindow(int hndw);
-        [DllImport("user32", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern int SendMessage(int hwnd, int wMsg, int wParam, [MarshalAs(UnmanagedType.AsAny)]   object lParam);
-        [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern int SetWindowPos(int hwnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
-        [DllImport("vfw32.dll")]
-        public static extern string capVideoStreamCallback(int hwnd, videohdr_tag videohdr_tag);
-        [DllImport("vicap32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        public static extern bool capSetCallbackOnFrame(int hwnd, string s);
-
-
-        private void OpenCapture()
-        {
-            int intWidth = this.panel1.Width;
-            int intHeight = this.panel1.Height;
-            int intDevice = 0;
-            string refDevice = intDevice.ToString();
-            //创建视频窗口并得到句柄
-            hHwnd = SignControl.capCreateCaptureWindowA(ref refDevice, 1342177280, 0, 0, 1024, 800, this.panel1.Handle.ToInt32(), 0);
-            if (SignControl.SendMessage(hHwnd, 0x40a, intDevice, 0) > 0)
-            {
-                SignControl.SendMessage(this.hHwnd, 0x435, -1, 0);
-                SignControl.SendMessage(this.hHwnd, 0x434, 0x42, 0);
-                SignControl.SendMessage(this.hHwnd, 0x432, -1, 0);
-                SignControl.SetWindowPos(this.hHwnd, 1, 0, 0, intWidth, intHeight, 6);
-            }
-            else
-            {
-                SignControl.DestroyWindow(this.hHwnd);
-            }
-        }
+        /// <summary>保存图片框的句柄</summary>
+        private IntPtr pbHWND;
+        /// <summary>临时图片，用于保存到视频</summary>
+        private Bitmap tmpBmp;
+        
         public SignControl(Face clientAll, Tts client2All)
         {
             try
@@ -99,9 +68,12 @@ namespace FaceCheck
                 client = clientAll;
                 client2 = client2All;
 
-                this.OpenCapture();
-
                 g_playsound.StartThred();
+
+                pbHWND = pictureBox1.Handle;
+                tmpBmp = new Bitmap(640, 480);
+                openCapture();
+
             }
             catch (Exception e1)
             {
@@ -109,13 +81,67 @@ namespace FaceCheck
             }
             form = this;
         }
+        private void openCapture()
+        {
+            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSource = new VideoCaptureDevice();
+            this.writer = new VideoFileWriter();
+            //设置视频来源
+            try
+            {
+                // 枚举所有视频输入设备
+                videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+                if (videoDevices.Count == 0)
+                    throw new ApplicationException();   //没有找到摄像头设备
+
+                //foreach (FilterInfo device in videoDevices)
+                //{
+                //    this.comboBox_camera.Items.Add(device.Name);
+                //}
+                //this.comboBox_camera.SelectedIndex = 0;   //注释掉，选择摄像头来源的时候才会才会触发显示摄像头信息
+
+                int selected_index = 0;
+                this.videoSource = new VideoCaptureDevice(videoDevices[selected_index].MonikerString);
+                // set NewFrame event handler
+                videoSource.NewFrame += new NewFrameEventHandler(show_video);
+                videoSource.Start();
+                videoSourcePlayer.VideoSource = videoSource;
+                videoSourcePlayer.Start();
+                isOpen = true;
+            }
+            catch (ApplicationException)
+            {
+                videoDevices = null;
+                MessageBox.Show("没有找到摄像头设备", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            tick_num = 0;
+            //秒表
+            this.timer_count = new System.Timers.Timer();   //实例化Timer类，设置间隔时间为10000毫秒；
+            this.timer_count.Elapsed += new System.Timers.ElapsedEventHandler(tick_count);   //到达时间的时候执行事件；
+            this.timer_count.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；
+            this.timer_count.Interval = 1000;
+
+        }
+        
+        //新帧的触发函数
+        private void show_video(object sender, NewFrameEventArgs eventArgs)
+        {
+            
+            //Bitmap bitmap = eventArgs.Frame;    //获取到一帧图像
+            //pictureBox1.Image = Image.FromHbitmap(bitmap.GetHbitmap());
+            Graphics g = Graphics.FromHwnd(pbHWND);
+            g.DrawImage(eventArgs.Frame, 0, 0, eventArgs.Frame.Width, eventArgs.Frame.Height);
+            g.Dispose();
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                this.OpenCapture();
-                isOpen = true;
+                openCapture();
+                
             }catch (Exception e1)
             {
                 MessageBox.Show(e1.ToString());
@@ -126,16 +152,25 @@ namespace FaceCheck
         {
             try
             {
-                isOpen = false;
-                //停止视频注销视频句柄
-                SignControl.SendMessage(this.hHwnd, 0x40b, 0, 0);
-                SignControl.DestroyWindow(this.hHwnd);
+                closeCapture();
             }
             catch (Exception e1)
             {
                 MessageBox.Show(e1.ToString());
             }
         }
+        public void closeCapture()
+        {
+            isOpen = false;
+            //停止视频
+            this.videoSource.SignalToStop();
+            this.videoSource.WaitForStop();
+            this.videoSourcePlayer.SignalToStop();
+            this.videoSourcePlayer.WaitForStop();
+            pictureBox1.Image = null;
+        }
+
+
 
         public byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
@@ -153,7 +188,7 @@ namespace FaceCheck
 
         private void searchImgAndRead(Object obj1)
         {
-            Image image1 = (Image)((IDataObject)obj1).GetData(typeof(Bitmap));
+            Image image1 = (Image)(obj1);
             var imageId = Util.GenerateStringID();
             if (!Directory.Exists(Util.soundPath + "\\data\\image\\"))
             {
@@ -243,13 +278,17 @@ namespace FaceCheck
                 {
                     MessageBox.Show("摄像头未开启无法签到!");
                 }
-                SignControl.SendMessage(this.hHwnd, 0x41e, 0, 0);
-                IDataObject obj1 = Clipboard.GetDataObject();
-                if (obj1.GetDataPresent(typeof(Bitmap)))
+                if (this.videoSource.IsRunning && this.videoSourcePlayer.IsRunning)
                 {
+                    Bitmap bitmap = this.videoSourcePlayer.GetCurrentVideoFrame();
                     Thread thread = new Thread(new ParameterizedThreadStart(searchImgAndRead));
                     thread.IsBackground = true;
-                    thread.Start(obj1);
+                    thread.Start(bitmap);
+                }
+                else
+                {
+                    MessageBox.Show("摄像头没有运行", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
             }
             catch(Exception e1)
@@ -258,6 +297,10 @@ namespace FaceCheck
             }
         }
 
-        
+        //计时器响应函数
+        public void tick_count(object source, System.Timers.ElapsedEventArgs e)
+        {
+            tick_num++;
+        }
     }
 }

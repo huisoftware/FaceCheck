@@ -9,6 +9,8 @@ SDK文档地址https://ai.baidu.com/docs#/Face-Csharp-SDK/top
 团队成员：A huisoftware、B 13001970339、C houyanzu、D k170961729、E LRH733、F lyj13593494536  
 开发IDE：Visual Studio  
 GitHub地址https://github.com/huisoftware/FaceCheck.git  
+目前由于引用问题，需要手动将lib下的avcodec-53.dll avdevice-53.dll avfilter-2.dll avformat-53.dll  
+avutil-51.dll postproc-52.dll swresample-0.dll swscale-2.dll 手动复制粘贴到程序入口exe运行目录  
 
 ## 三.模块和需求：  
 一级菜单（签到，人脸库维护）  

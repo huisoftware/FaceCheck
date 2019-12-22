@@ -131,5 +131,9 @@ namespace FaceCheck
         {
             this.richTextBox1.SelectionAlignment = HorizontalAlignment.Center;  //RichTextBox中的文本居中对齐
         }
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SignControl.form.closeCapture();
+        }
     }
 }
